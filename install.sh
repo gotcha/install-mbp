@@ -75,6 +75,13 @@ then
     unzip $SOFTWARE_DOWNLOAD/iTerm2_v2_0.zip -d /Applications
 fi
 
+# install onepassword
+
+if [ ! -d "/Applications/1Password 4.app" ]
+then
+    unzip $SOFTWARE_DOWNLOAD/1Password-4.4.3.zip -d /Applications
+fi
+
 # install brew
 
 if [ ! -f "/usr/local/bin/brew" ]
@@ -84,6 +91,7 @@ then
 fi
 
 # install brew packages
+
 BREW_FORMULA="tmux stow"
 
 su $USR -c "brew install $BREW_FORMULA"
