@@ -26,8 +26,8 @@ BREW_FORMULA="tmux stow"
 
 su $USR -c "brew install $BREW_FORMULA"
 
-
 # dotfiles
+
 if [ ! -d /Users/$USR/dotfiles ]
 then
     git clone git@github.com:gotcha/dotfiles.git /Users/$USR/dotfiles
@@ -50,12 +50,22 @@ fi
 
 # configure github
 
-su $USR -c "ssh -T git@github.com 2>&1 -i$SSH_KEY >/dev/null | grep $USR > /dev/null"
+su $USR -c "ssh -T git@github.com 2>&1 -i $SSH_KEY >/dev/null | grep $USR > /dev/null"
 if [ $? -ne 0 ]
 then
     echo "Public key should be uploaded to github.com"
     cat $SSH_KEY.pub
 fi
+
+# powerline fonts
+
+if [ ! -f "/Users/$USR/Library/Fonts/Droid Sans Mono for Powerline.otf ]
+then
+    su $USR -c "git clone git@github.com:Lokaltog/powerline-fonts.git /Users/$USR/tmp/powerline-fonts"
+    su $USR -c "/Users/$USR/tmp/powerline-fonts/install.sh"
+    su $USR -c "rm -rf /Users/$USR/tmp/powerline-fonts"
+fi
+
 
 # install virtual box 
 
