@@ -8,7 +8,7 @@ detach_volume() {
 VOLUME=/Volumes/$@
 if [ -d "$VOLUME" ]
 then
-    hdiutil detach $VOLUME
+    hdiutil detach "$VOLUME"
 fi
 }
 
@@ -48,4 +48,22 @@ fi
 if [ ! -d /Applications/boot2docker.app ]
 then
     installer -verbose -target / -pkg $SOFTWARE_DOWNLOAD/Boot2Docker-1.3.0.pkg
+fi
+
+# install chrome
+
+if [ ! -d "/Applications/Google\ Chrome.app" ]
+then
+    hdiutil attach $SOFTWARE_DOWNLOAD/googlechrome.dmg
+    cp -r /Volumes/Google\ Chrome/Google\ Chrome.app /Applications
+    detach_volume "Google Chrome"
+fi
+
+# install firefox
+
+if [ ! -d "/Applications/Firefox.app" ]
+then
+    hdiutil attach $SOFTWARE_DOWNLOAD/Firefox\ 33.0.dmg
+    cp -r /Volumes/Firefox/Firefox.app /Applications
+    detach_volume Firefox
 fi
