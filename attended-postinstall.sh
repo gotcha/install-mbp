@@ -11,3 +11,4 @@ fi
 
 detach_volume Tunnelblick
 detach_volume "Adobe Flash Player Installer"
+detach_volume "Dropbox Installer"
