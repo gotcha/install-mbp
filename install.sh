@@ -67,3 +67,10 @@ then
     cp -r /Volumes/Firefox/Firefox.app /Applications
     detach_volume Firefox
 fi
+
+# install iterm
+
+if [ ! -d "/Applications/iTerm.app" ]
+then
+    unzip $SOFTWARE_DOWNLOAD/iTerm2_v2_0.zip -d /Applications
+fi
