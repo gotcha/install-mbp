@@ -1,21 +1,51 @@
 #!/bin/sh
 
 SOFTWARE_DOWNLOAD=~/auto/software
+USR=gotcha
 
-#configure git
+detach_volume() {
+
+VOLUME=/Volumes/$@
+if [ -d "$VOLUME" ]
+then
+    hdiutil detach $VOLUME
+fi
+}
+
+# configure git
+
 git config --global user.name "Godefroid Chapelle"
 git config --global user.email gotcha@bubblenet.be
 git config --global push.default simple
 
-#ssh key
-if [ ! -f /Users/gotcha/.ssh/id_dsa ]
+# ssh key
+SSH_KEY=/Users/$USR/.ssh/id_dsa
+if [ ! -f $SSH_KEY ]
 then
-    ssh-keygen -q -t dsa -f /Users/gotcha/.ssh/id_dsa -N ""
+    ssh-keygen -q -t dsa -f $SSH_KEY -N ""
 fi
 
-ssh -T git@github.com 2>&1 >/dev/null | grep gotcha
+# configure github
+
+su $USR -c "ssh -T git@github.com 2>&1 -i$SSH_KEY >/dev/null | grep $USR > /dev/null"
 if [ $? -ne 0 ]
 then
     echo "Public key should be uploaded to github.com"
-    cat /Users/gotcha/.ssh/id_dsa.pub
+    cat $SSH_KEY.pub
+fi
+
+# install virtual box 
+
+if [ ! -d /Applications/VirtualBox.app ]
+then
+    hdiutil attach $SOFTWARE_DOWNLOAD/VirtualBox-4.3.18-96516-OS.dmg
+    installer -verbose -target / -pkg /Volumes/VirtualBox/VirtualBox.pkg
+    detach_volume VirtualBox
+fi
+
+# install docker
+
+if [ ! -d /Applications/boot2docker.app ]
+then
+    installer -verbose -target / -pkg $SOFTWARE_DOWNLOAD/Boot2Docker-1.3.0.pkg
 fi
