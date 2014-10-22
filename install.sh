@@ -1,7 +1,6 @@
 #!/bin/sh
 
 SOFTWARE_DOWNLOAD=~/auto/software
-USR=gotcha
 
 detach_volume() {
 
@@ -11,61 +10,6 @@ then
     hdiutil detach "$VOLUME"
 fi
 }
-
-# install brew
-
-if [ ! -f "/usr/local/bin/brew" ]
-then
-    su $USR -c 'ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"'
-    su $USR -c 'brew doctor'
-fi
-
-# install brew packages
-
-BREW_FORMULA="tmux stow"
-
-su $USR -c "brew install $BREW_FORMULA"
-
-# dotfiles
-
-if [ ! -d /Users/$USR/dotfiles ]
-then
-    git clone git@github.com:gotcha/dotfiles.git /Users/$USR/dotfiles
-fi
-su $USR -c "stow -d /Users/$USR/dotfiles -t /USERS/$USR git iterm vim tmux"
-
-# configure git
-
-git config --global user.name "Godefroid Chapelle"
-git config --global user.email gotcha@bubblenet.be
-git config --global push.default simple
-git config --global core.excludesfile ~/.gitignore_global
-
-# ssh key
-SSH_KEY=/Users/$USR/.ssh/id_dsa
-if [ ! -f $SSH_KEY ]
-then
-    ssh-keygen -q -t dsa -f $SSH_KEY -N ""
-fi
-
-# configure github
-
-su $USR -c "ssh -T git@github.com 2>&1 -i $SSH_KEY >/dev/null | grep $USR > /dev/null"
-if [ $? -ne 0 ]
-then
-    echo "Public key should be uploaded to github.com"
-    cat $SSH_KEY.pub
-fi
-
-# powerline fonts
-
-if [ ! -f "/Users/$USR/Library/Fonts/Droid Sans Mono for Powerline.otf ]
-then
-    su $USR -c "git clone git@github.com:Lokaltog/powerline-fonts.git /Users/$USR/tmp/powerline-fonts"
-    su $USR -c "/Users/$USR/tmp/powerline-fonts/install.sh"
-    su $USR -c "rm -rf /Users/$USR/tmp/powerline-fonts"
-fi
-
 
 # install virtual box 
 
