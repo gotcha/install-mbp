@@ -5,6 +5,6 @@ Install new machine
 * clone ``git@github.com:gotcha/install-mbp.git``
 * run ``install.sh``
 * upload public key to github.com
-* run ``install-attended.sh``
+* run ``attended-install.sh``
 * do all needed clicks
-* run ``complete.attended.sh``
+* run ``attended-postinstall.sh``
