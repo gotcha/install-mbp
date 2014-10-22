@@ -74,3 +74,16 @@ if [ ! -d "/Applications/iTerm.app" ]
 then
     unzip $SOFTWARE_DOWNLOAD/iTerm2_v2_0.zip -d /Applications
 fi
+
+# install brew
+
+if [ ! -f "/usr/local/bin/brew" ]
+then
+    su $USR -c 'ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"'
+    su $USR -c 'brew doctor'
+fi
+
+# install brew packages
+BREW_FORMULA="tmux stow"
+
+su $USR -c "brew install $BREW_FORMULA"
