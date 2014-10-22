@@ -12,11 +12,34 @@ then
 fi
 }
 
+# install brew
+
+if [ ! -f "/usr/local/bin/brew" ]
+then
+    su $USR -c 'ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"'
+    su $USR -c 'brew doctor'
+fi
+
+# install brew packages
+
+BREW_FORMULA="tmux stow"
+
+su $USR -c "brew install $BREW_FORMULA"
+
+
+# dotfiles
+if [ ! -d /Users/$USR/dotfiles ]
+then
+    git clone git@github.com:gotcha/dotfiles.git /Users/$USR/dotfiles
+fi
+su $USR -c "stow -d /Users/$USR/dotfiles -t /USERS/$USR git iterm vim tmux"
+
 # configure git
 
 git config --global user.name "Godefroid Chapelle"
 git config --global user.email gotcha@bubblenet.be
 git config --global push.default simple
+git config --global core.excludesfile ~/.gitignore_global
 
 # ssh key
 SSH_KEY=/Users/$USR/.ssh/id_dsa
@@ -82,16 +105,3 @@ then
     unzip $SOFTWARE_DOWNLOAD/1Password-4.4.3.zip -d /Applications
 fi
 
-# install brew
-
-if [ ! -f "/usr/local/bin/brew" ]
-then
-    su $USR -c 'ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"'
-    su $USR -c 'brew doctor'
-fi
-
-# install brew packages
-
-BREW_FORMULA="tmux stow"
-
-su $USR -c "brew install $BREW_FORMULA"
