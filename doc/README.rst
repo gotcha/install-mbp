@@ -8,3 +8,4 @@ Install new machine
 * run ``attended-install.sh``
 * do all needed clicks
 * run ``attended-postinstall.sh``
+* download and install 1password browser extensions
