@@ -52,7 +52,7 @@ fi
 
 # install chrome
 
-if [ ! -d "/Applications/Google\ Chrome.app" ]
+if [ ! -d "/Applications/Google Chrome.app" ]
 then
     hdiutil attach $SOFTWARE_DOWNLOAD/googlechrome.dmg
     cp -r /Volumes/Google\ Chrome/Google\ Chrome.app /Applications
