@@ -96,3 +96,6 @@ then
     python $BUILDOUT/bootstrap.py -c $BUILDOUT/python27.cfg
     $BUILDOUT/bin/buildout -c $BUILDOUT/python27.cfg
 fi
+
+# show hidden files
+defaults write com.apple.finder AppleShowAllFiles YES
