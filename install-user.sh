@@ -13,7 +13,7 @@ fi
 
 # install brew packages
 
-BREW_FORMULA="tmux stow jpeg openjpeg vifm ssh-copy-id"
+BREW_FORMULA="tmux stow jpeg openjpeg vifm ssh-copy-id mutt"
 
 brew install $BREW_FORMULA
 
