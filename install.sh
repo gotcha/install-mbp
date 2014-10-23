@@ -59,3 +59,12 @@ then
     unzip $SOFTWARE_DOWNLOAD/1Password-4.4.3.zip -d /Applications
 fi
 
+# install grand perspective
+
+if [ ! -d "/Applications/GrandPerspective.app" ]
+then
+    hdiutil attach $SOFTWARE_DOWNLOAD/GrandPerspective-1_5_1.dmg
+    cp -r /Volumes/GrandPerspective\ 1.5.1/GrandPerspective.app /Applications
+    detach_volume "GrandPerspective 1.5.1"
+fi
+
