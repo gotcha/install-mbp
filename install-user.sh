@@ -13,7 +13,7 @@ fi
 
 # install brew packages
 
-BREW_FORMULA="tmux stow jpeg openjpeg vifm ssh-copy-id"
+BREW_FORMULA="tmux stow jpeg openjpeg vifm ssh-copy-id mutt"
 
 brew install $BREW_FORMULA
 
@@ -24,7 +24,7 @@ then
     git clone git@github.com:gotcha/dotfiles.git $HOME/dotfiles
 fi
 stow -d $HOME/dotfiles -t /$HOME stow
-stow -d $HOME/dotfiles -t /$HOME git iterm vim tmux buildout
+stow -d $HOME/dotfiles -t /$HOME git iterm vim tmux buildout mutt
 
 # configure git
 
