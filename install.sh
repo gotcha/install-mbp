@@ -68,3 +68,11 @@ then
     detach_volume "GrandPerspective 1.5.1"
 fi
 
+# install thunderbird
+
+if [ ! -d "/Applications/Thunderbird.app" ]
+then
+    hdiutil attach $SOFTWARE_DOWNLOAD/Thunderbird\ 31.2.0.dmg
+    cp -r /Volumes/Thunderbird/Thunderbird.app /Applications
+    detach_volume "Thunderbird"
+fi
