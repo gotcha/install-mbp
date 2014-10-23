@@ -100,3 +100,4 @@ fi
 
 # show hidden files
 defaults write com.apple.finder AppleShowAllFiles YES
+defaults write -g com.apple.keyboard.fnState -boolean true
