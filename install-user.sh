@@ -13,7 +13,7 @@ fi
 
 # install brew packages
 
-BREW_FORMULA="tmux stow jpeg openjpeg"
+BREW_FORMULA="tmux stow jpeg openjpeg vifm"
 
 brew install $BREW_FORMULA
 
