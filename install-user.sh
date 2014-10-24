@@ -16,6 +16,7 @@ fi
 BREW_FORMULA="tmux stow jpeg openjpeg vifm ssh-copy-id mutt"
 
 brew install $BREW_FORMULA
+brew install vim --with-client-server
 
 # dotfiles
 
