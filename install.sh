@@ -76,3 +76,12 @@ then
     cp -r /Volumes/Thunderbird/Thunderbird.app /Applications
     detach_volume "Thunderbird"
 fi
+
+# install xquartz (for vim client server)
+
+if [ ! -d /Applications/Utilities/XQuartz.app ]
+then
+    hdiutil attach $SOFTWARE_DOWNLOAD/XQuartz-2.7.7.dmg
+    installer -verbose -target / -pkg /Volumes/XQuartz-2.7.7/XQuartz.pkg
+    detach_volume XQuartz-2.7.7
+fi
