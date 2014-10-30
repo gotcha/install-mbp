@@ -85,3 +85,24 @@ then
     installer -verbose -target / -pkg /Volumes/XQuartz-2.7.7/XQuartz.pkg
     detach_volume XQuartz-2.7.7
 fi
+
+# install skype
+
+if [ ! -d "/Applications/Skype.app" ]
+then
+    hdiutil attach $SOFTWARE_DOWNLOAD/Skype_7.0.653.dmg
+    cp -r /Volumes/Skype/Skype.app /Applications
+    detach_volume "Skype"
+fi
+
+# install neooffice
+
+if [ ! -d "/Applications/NeoOffice.app" ]
+then
+    hdiutil attach $SOFTWARE_DOWNLOAD/NeoOffice-2014.5_Free_Edition-Intel.dmg
+    installer -verbose -target / -pkg /Volumes/Install\ NeoOffice\ 2014.5\ Free\ Edition/Install\ NeoOffice\ 2014.5\ Free\ Edition.pkg
+    detach_volume "Install NeoOffice 2014.5 Free Edition"
+fi
+
+
+
