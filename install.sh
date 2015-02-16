@@ -40,7 +40,7 @@ fi
 
 if [ ! -d "/Applications/Firefox.app" ]
 then
-    hdiutil attach $SOFTWARE_DOWNLOAD/Firefox\ 33.0.dmg
+    hdiutil attach $SOFTWARE_DOWNLOAD/Firefox\ 33.1.dmg
     cp -r /Volumes/Firefox/Firefox.app /Applications
     detach_volume Firefox
 fi
@@ -99,10 +99,68 @@ fi
 
 if [ ! -d "/Applications/NeoOffice.app" ]
 then
-    hdiutil attach $SOFTWARE_DOWNLOAD/NeoOffice-2014.5_Free_Edition-Intel.dmg
-    installer -verbose -target / -pkg /Volumes/Install\ NeoOffice\ 2014.5\ Free\ Edition/Install\ NeoOffice\ 2014.5\ Free\ Edition.pkg
-    detach_volume "Install NeoOffice 2014.5 Free Edition"
+    hdiutil attach $SOFTWARE_DOWNLOAD/NeoOffice-3.4.1-Intel.dmg
+    installer -verbose -target / -pkg /Volumes/Install\ NeoOffice\ 3.4.1/Install\ NeoOffice\ 3.4.1.pkg
+    detach_volume "Install NeoOffice 3.4.1"
 fi
 
+# install java
 
+if [ ! -f "/System/Library/Frameworks/JavaVM.framework/Versions/A/Commands/java" ]
+then
+    hdiutil attach $SOFTWARE_DOWNLOAD/jdk-8u25-macosx-x64.dmg
+    installer -verbose -target / -pkg /Volumes/JDK\ 8\ Update\ 25/JDK\ 8\ Update\ 25.pkg
+    detach_volume "JDK 8 Update 25"
+fi
 
+# install vagrant
+
+if [ ! -f "/usr/bin/vagrant" ]
+then
+    hdiutil attach $SOFTWARE_DOWNLOAD/vagrant_1.6.5.dmg
+    installer -verbose -target / -pkg /Volumes/Vagrant/Vagrant.pkg
+    detach_volume "Vagrant"
+fi
+
+# install vlc
+
+if [ ! -d "/Applications/VLC.app" ]
+then
+    hdiutil attach $SOFTWARE_DOWNLOAD/vlc-2.1.5.dmg
+    cp -r /Volumes/vlc-2.1.5/VLC.app /Applications
+    detach_volume "vlc-2.1.5"
+fi
+
+# install dash
+
+if [ ! -d "/Applications/Dash.app" ]
+then
+    unzip $SOFTWARE_DOWNLOAD/Dash.zip -d /Applications
+fi
+
+# install brother scanner
+
+if [ ! -d "/Applications/Brother/ControlCenter.app" ]
+then
+    hdiutil attach $SOFTWARE_DOWNLOAD/Brother_ScannerDrivers_1_0_0.dmg
+    installer -verbose -target / -pkg /Volumes/Brother_ScannerDrivers/Brother_ScannerDrivers.pkg
+    detach_volume "Brother_ScannerDrivers"
+fi
+
+# install electrum
+
+if [ ! -f "/Applications/Electrum.app" ]
+then
+    hdiutil attach $SOFTWARE_DOWNLOAD/electrum-1.9.8.dmg
+    cp -r /Volumes/Electrum/Electrum.app /Applications
+    detach_volume "Electrum"
+fi
+
+# install lighthouse
+
+if [ ! -f "/Applications/Lighthouse.app" ]
+then
+    hdiutil attach $SOFTWARE_DOWNLOAD/Lighthouse.dmg
+    cp -r /Volumes/Lighthouse/Lighthouse.app /Applications
+    detach_volume "Lighthouse"
+fi

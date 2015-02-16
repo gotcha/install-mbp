@@ -13,10 +13,15 @@ fi
 
 # install brew packages
 
-BREW_FORMULA="tmux stow jpeg openjpeg vifm ssh-copy-id mutt"
+BREW_FORMULA="tmux stow jpeg openjpeg vifm ssh-copy-id mutt wget shellcheck gnu-sed vim hg git go bazaar pv sqlite poppler"
 
 brew install $BREW_FORMULA
-brew install vim --with-client-server
+
+# use gnu-sed as sed
+if [ -f /usr/local/bin/sed ]
+then
+    ln -s /usr/local/bin/gsed /usr/local/bin/sed
+fi
 
 # dotfiles
 
@@ -25,7 +30,7 @@ then
     git clone git@github.com:gotcha/dotfiles.git $HOME/dotfiles
 fi
 stow -d $HOME/dotfiles -t /$HOME stow
-stow -d $HOME/dotfiles -t /$HOME git iterm vim tmux buildout mutt zsh ssh
+stow -d $HOME/dotfiles -t /$HOME git iterm vim tmux buildout mutt zsh ssh bash hg
 
 # configure git
 
@@ -33,6 +38,10 @@ git config --global user.name "Godefroid Chapelle"
 git config --global user.email gotcha@bubblenet.be
 git config --global push.default simple
 git config --global core.excludesfile ~/.gitignore_global
+git config --global alias.co checkout
+git config --global alias.st status
+git config --global alias.lol 'log --graph --decorate --pretty=oneline --abbrev-commit'
+git config --global alias.lola 'log --graph --decorate --pretty=oneline --abbrev-commit --all'
 
 # ssh key
 SSH_KEY=$HOME/.ssh/id_dsa
@@ -71,21 +80,28 @@ then
     mkdir $HOME/bin
 fi
  
- 
 BUILDOUT=$HOME/software/buildout.python
 if [ ! -d $BUILDOUT ]
 then
     git clone git@github.com:collective/buildout.python.git $BUILDOUT
 fi
 
-if [ ! -f $BUILDOUT/python27.cfg ]
+if [ ! -f $BUILDOUT/python.cfg ]
 then
-    cat >$BUILDOUT/python27.cfg << endcfg
+    cat >$BUILDOUT/python.cfg << endcfg
 
 [buildout]
-extends = src/base.cfg src/python27.cfg src/links.cfg
+extends = src/base.cfg src/python34.cfg src/python27.cfg src/links.cfg
 python-buildout-root = \${buildout:directory}/src
-parts += install-links
+parts = python-2.7-build
+        python-2.7
+        python-2.7-PIL
+        python-2.7-test
+        python-3.4-build
+        python-3.4
+        python-3.4-PIL
+        python-3.4-test
+        install-links
 
 [install-links]
 prefix = $HOME
@@ -95,15 +111,85 @@ fi
 
 if [ ! -f $BUILDOUT/bin/buildout ]
 then
-    python $BUILDOUT/bootstrap.py -c $BUILDOUT/python27.cfg
-    $BUILDOUT/bin/buildout -c $BUILDOUT/python27.cfg
+    python $BUILDOUT/bootstrap.py -c $BUILDOUT/python.cfg
+fi
+
+if [ ! -d $BUILDOUT/python-3.4 ]
+then
+    $BUILDOUT/bin/buildout -c $BUILDOUT/python.cfg
+fi
+
+if [ ! -d $BUILDOUT/python-2.7 ]
+then
+    $BUILDOUT/bin/buildout -c $BUILDOUT/python.cfg
+fi
+
+if [ ! -f $HOME/bin/python3.4 ]
+then
+    $BUILDOUT/bin/install-links
+fi
+
+if [ ! -f $HOME/bin/python2.7 ]
+then
+    $BUILDOUT/bin/install-links
 fi
 
 # show hidden files
 defaults write com.apple.finder AppleShowAllFiles YES
+# make fn keys function rather than default mac
 defaults write -g com.apple.keyboard.fnState -boolean true
+
 
 if [ ! -d $HOME/.oh-my-zsh ]
 then
     curl -L http://install.ohmyz.sh | sh
 fi
+
+# install packer
+PACKER=$HOME/software/packer
+if [ ! -d "$PACKER" ]
+then
+    unzip $SOFTWARE_DOWNLOAD/packer_0.7.5_darwin_amd64.zip -d $PACKER
+fi
+
+# install terraform
+TERRAFORM=$HOME/software/terraform
+if [ ! -d "$TERRAFORM" ]
+then
+    unzip $SOFTWARE_DOWNLOAD/terraform_0.3.6_darwin_amd64.zip -d $TERRAFORM
+fi
+
+# install rvm
+RVM=$HOME/.rvm
+if [ ! -d "$RVM" ]
+then
+    curl -sSL https://get.rvm.io | bash -s stable --ruby
+fi
+
+# install fig
+FIG=$HOME/software/fig
+if [ ! -f /usr/local/bin/fig ]
+then
+    curl -L https://github.com/docker/fig/releases/download/1.0.1/fig-`uname -s`-`uname -m` > $FIG
+    chmod +x $FIG
+    ln -s $FIG /usr/local/bin/fig
+fi
+
+# install zest.releaser
+FULLRELEASE=$HOME/software/fullrelease
+if [ ! -f /usr/local/bin/fullrelease ]
+then
+    virtualenv-2.7 "$FULLRELEASE"
+    "$FULLRELEASE/bin/pip" install zest.releaser pyroma check-manifest gocept.zestreleaser.customupload
+    ln -s $FULLRELEASE/bin/fullrelease /usr/local/bin/fullrelease
+fi
+
+# install flake8
+FIG=$HOME/software/flake8
+
+if [ ! -f $FIG/bin/flake8 ]
+then
+    virtualenv-2.7 "$FIG"
+    "$FIG/bin/pip" install flake8
+fi
+
