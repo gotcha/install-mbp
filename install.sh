@@ -149,7 +149,7 @@ fi
 
 # install electrum
 
-if [ ! -f "/Applications/Electrum.app" ]
+if [ ! -d "/Applications/Electrum.app" ]
 then
     hdiutil attach $SOFTWARE_DOWNLOAD/electrum-1.9.8.dmg
     cp -r /Volumes/Electrum/Electrum.app /Applications
@@ -158,9 +158,19 @@ fi
 
 # install lighthouse
 
-if [ ! -f "/Applications/Lighthouse.app" ]
+if [ ! -d "/Applications/Lighthouse.app" ]
 then
     hdiutil attach $SOFTWARE_DOWNLOAD/Lighthouse.dmg
     cp -r /Volumes/Lighthouse/Lighthouse.app /Applications
     detach_volume "Lighthouse"
 fi
+
+# install teamviewer
+
+if [ ! -d "/Applications/TeamViewer.app" ]
+then
+    hdiutil attach $SOFTWARE_DOWNLOAD/TeamViewer.dmg
+    installer -verbose -target / -pkg "/Volumes/TeamViewer/Install TeamViewer.pkg"
+    detach_volume "TeamViewer"
+fi
+

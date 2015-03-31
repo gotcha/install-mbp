@@ -13,12 +13,12 @@ fi
 
 # install brew packages
 
-BREW_FORMULA="tmux stow jpeg openjpeg vifm ssh-copy-id mutt wget shellcheck gnu-sed vim hg git go bazaar pv sqlite poppler"
+BREW_FORMULA="tmux stow jpeg openjpeg vifm ssh-copy-id mutt wget shellcheck gnu-sed vim hg git go bazaar pv sqlite poppler gstreamer gst-plugins-good tig wv"
 
 brew install $BREW_FORMULA
 
 # use gnu-sed as sed
-if [ -f /usr/local/bin/sed ]
+if [ ! -f /usr/local/bin/sed ]
 then
     ln -s /usr/local/bin/gsed /usr/local/bin/sed
 fi
@@ -185,11 +185,20 @@ then
 fi
 
 # install flake8
-FIG=$HOME/software/flake8
+FLAKE8=$HOME/software/flake8
 
-if [ ! -f $FIG/bin/flake8 ]
+if [ ! -f $FLAKE8/bin/flake8 ]
 then
-    virtualenv-2.7 "$FIG"
-    "$FIG/bin/pip" install flake8
+    virtualenv-2.7 "$FLAKE8"
+    "$FLAKE8/bin/pip" install flake8
+fi
+
+# install docker-compose
+COMPOSE=$HOME/software/docker-compose
+
+if [ ! -f $COMPOSE/bin/docker-compose ]
+then
+    virtualenv-2.7 "$COMPOSE"
+    "$COMPOSE/bin/pip" install docker-compose
 fi
 
