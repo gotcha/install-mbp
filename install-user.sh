@@ -13,7 +13,7 @@ fi
 
 # install brew packages
 
-BREW_FORMULA="tmux stow jpeg openjpeg vifm ssh-copy-id mutt wget shellcheck gnu-sed vim hg git go bazaar pv sqlite poppler gstreamer gst-plugins-good tig wv"
+BREW_FORMULA="tmux stow jpeg openjpeg vifm ssh-copy-id mutt wget shellcheck gnu-sed vim hg git go bazaar pv sqlite poppler gstreamer gst-plugins-good tig wv pygobject3 libffi gtk+3 dbus gst-libav gdb openconnect"
 
 brew install $BREW_FORMULA
 
