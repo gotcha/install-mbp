@@ -24,7 +24,7 @@ fi
 
 if [ ! -d /Applications/boot2docker.app ]
 then
-    installer -verbose -target / -pkg $SOFTWARE_DOWNLOAD/Boot2Docker-1.5.0.pkg
+    installer -verbose -target / -pkg $SOFTWARE_DOWNLOAD/Boot2Docker-1.6.2.pkg
 fi
 
 # install chrome
