@@ -174,3 +174,11 @@ then
     detach_volume "TeamViewer"
 fi
 
+#install nomachine
+
+if [ ! -d "/Applications/NoMachine.app" ]
+then
+    hdiutil attach $SOFTWARE_DOWNLOAD/nomachine_4.5.0_1.dmg
+    installer -verbose -target / -pkg "/Volumes/NoMachine/NoMachine.pkg"
+    detach_volume "NoMachine"
+fi
